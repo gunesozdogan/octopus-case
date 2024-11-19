@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import mainIcon from "../Icons/mainIcon.png";
 import { Header } from "./Header";

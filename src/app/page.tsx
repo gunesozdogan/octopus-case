@@ -1,3 +1,5 @@
+"use client";
+
 import { Main } from "./components/Main";
 import { Login } from "./components/Login";
 
