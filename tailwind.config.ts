@@ -9,8 +9,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primaryWhite: "#fff",
+        secondaryWhite: "#f8fafc",
+        customGreen: "#00B500",
+      },
+      fontFamily: {
+        inter: ["Inter", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
+      },
+      spacing: {
+        iconLeft: "40.11px",
+        iconTop: "40.49px",
       },
     },
   },
