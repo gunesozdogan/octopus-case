@@ -37,7 +37,7 @@ const ProductSummary: React.FC<ProductSummaryProps> = ({
             onClick={() => onAddToCart(productId, userId)}
             className="w-[150px] h-[44px] bg-[#00B500] text-white text-[14px] rounded-lg font-medium"
           >
-            Add to Cart
+            Sepete Ekle
           </button>
         </div>
       </div>
