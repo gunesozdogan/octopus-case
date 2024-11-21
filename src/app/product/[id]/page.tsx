@@ -36,8 +36,23 @@ export default function ProductPage() {
     }
   }, [params.id]);
 
-  const handleAddToCart = () => {
-    console.log("Product added to cart!");
+  const onAddToCart = (productId: number, userId: number) => {
+    fetch(`https://dummyjson.com/carts/${userId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        merge: true,
+        products: [
+          {
+            id: productId,
+            quantity: 1,
+          },
+        ],
+      }),
+    })
+      .then((res) => res.json())
+      .then(console.log)
+      .catch((err) => console.error("Failed to add product to cart:", err));
   };
 
   if (!product) {
@@ -63,7 +78,8 @@ export default function ProductPage() {
         title={product.title}
         description={product.description}
         price={product.price}
-        onAddToCart={handleAddToCart}
+        productId={product.id}
+        onAddToCart={onAddToCart}
       />
     </div>
   );
