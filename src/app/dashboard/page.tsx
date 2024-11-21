@@ -1,17 +1,30 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../store/userSlice";
 import { Navbar } from "../components/Navbar";
+import { Filter } from "../components/Filter";
+import { Products } from "../components/Products";
+import { RootState } from "../store/store";
 
 export default function MainPage() {
-  const [user, setUser] = useState<{ firstName: string; lastName: string }>({
-    firstName: "",
-    lastName: "",
-  });
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const dispatch = useDispatch();
+
+  const user = useSelector((state: RootState) => state.user.user);
+
   useEffect(() => {
+    const savedUserData = localStorage.getItem("user");
+    if (savedUserData) {
+      const userData = JSON.parse(savedUserData);
+      dispatch(setUser(userData));
+      setLoading(false);
+      return;
+    }
+
     const fetchUserData = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
@@ -34,7 +47,10 @@ export default function MainPage() {
         }
 
         const userData = await response.json();
-        setUser(userData);
+
+        dispatch(setUser(userData));
+
+        localStorage.setItem("user", JSON.stringify(userData));
       } catch (err) {
         if (err instanceof Error) {
           setError(
@@ -49,18 +65,23 @@ export default function MainPage() {
     };
 
     fetchUserData();
-  }, []);
+  }, [dispatch]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
   if (error) {
     return <div>Error: {error}</div>;
   }
 
   return (
-    <div className="flex w-screen">
+    <div className="flex w-screen flex-col h-screen">
       <Navbar user={user} />
+      <div className="px-[80px] py-[32px] bg-secondaryWhite flex-1 flex gap-[32px]">
+        <Filter />
+        <Products />
+      </div>
     </div>
   );
 }

@@ -8,11 +8,9 @@ import { SearchIcon } from "./SearchIcon";
 import { ArrowIcon } from "./ArrowIcon";
 
 export const Navbar: React.FC<{
-  user: {
-    firstName: string;
-    lastName: string;
-  };
+  user: any;
 }> = ({ user }) => {
+  console.log(user);
   return (
     <div className="p-[24px] flex justify-between w-full border-b border-b-[#E2E8F0]">
       <Image
