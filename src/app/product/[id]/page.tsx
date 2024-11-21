@@ -5,6 +5,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store/store";
 import { Navbar } from "@/app/components/Navbar";
 import { useParams } from "next/navigation";
+import ProductImage from "@/app/components/ProductImage";
+import ProductDetails from "@/app/components/ProductDetails";
+import ProductSummary from "@/app/components/ProductSummary";
 
 interface Product {
   id: number;
@@ -33,6 +36,10 @@ export default function ProductPage() {
     }
   }, [params.id]);
 
+  const handleAddToCart = () => {
+    console.log("Product added to cart!");
+  };
+
   if (!product) {
     return <div>Loading...</div>;
   }
@@ -41,34 +48,23 @@ export default function ProductPage() {
     <div className="w-full">
       <Navbar user={user} />
       <div className="mx-[80px] my-[56px] flex gap-8">
-        <div>
-          <img
-            src={selectedImage}
-            alt={product.title}
-            className="w-[400px] h-[400px] object-contain border rounded"
-          />
-          <div className="flex gap-2 mt-4">
-            {product.images.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`${product.title} - ${index + 1}`}
-                className={`w-[80px] h-[80px] object-cover border rounded cursor-pointer ${
-                  selectedImage === image
-                    ? "border-blue-500"
-                    : "border-gray-300"
-                }`}
-                onClick={() => setSelectedImage(image)}
-              />
-            ))}
-          </div>
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold">{product.title}</h1>
-          <p className="text-gray-700 mt-4">{product.description}</p>
-          <p className="text-xl font-semibold mt-4">${product.price}</p>
-        </div>
+        <ProductImage
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
+          product={product}
+        />
+        <ProductDetails
+          title={product.title}
+          description={product.description}
+          price={product.price}
+        />
       </div>
+      <ProductSummary
+        title={product.title}
+        description={product.description}
+        price={product.price}
+        onAddToCart={handleAddToCart}
+      />
     </div>
   );
 }
